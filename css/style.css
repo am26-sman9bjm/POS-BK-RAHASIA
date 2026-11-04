@@ -172,11 +172,37 @@ input:focus, textarea:focus { outline: none; border-color: var(--postbox-dark); 
 .btn-export { background: #3b82f6; box-shadow: 0 4px 0 #1e40af; margin-top: 15px; }
 .btn-danger { background: #ef4444; box-shadow: 0 4px 0 #991b1b; margin-top: 15px; }
 
-/* Dashboard Tabel (Mode Kertas Lebar) */
-.dashboard-letter { max-width: 900px; margin: auto; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
-th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
-th { background-color: var(--postbox-dark); color: white; }
+/* Dashboard Table (Wider paper view) */
+.dashboard-letter {
+    max-width: 900px;
+    width: 95%;
+    margin: 20px auto;
+    transform: none; /* Disables letter card offset for dashboard */
+}
+
+/* Ensure table headers stretch across full width */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13px;
+    text-align: left;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: var(--postbox-dark);
+    color: white;
+}
+
 .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; color: white; }
 .badge-yes { background-color: #10b981; }
 .badge-no { background-color: #94a3b8; }
