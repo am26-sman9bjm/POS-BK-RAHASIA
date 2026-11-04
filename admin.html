@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Guru BK - Pos Rahasia SMAN 9 Banjarmasin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Supabase SDK & SheetJS for Excel Exports -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body style="background-color: #f1f5f9; padding: 20px; font-family: 'Quicksand', sans-serif;">
+
+    <div class="dashboard-letter letter" style="max-width: 1000px; margin: 0 auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        
+        <!-- Header Dashboard -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="assets/logo.jpeg" class="school-logo" style="width: 45px; height: 45px;" onerror="this.src='https://via.placeholder.com/45?text=SMA+9'">
+                <div>
+                    <h1 style="font-size: 1.2rem; margin: 0; color: #1e293b;">SMAN 9 Banjarmasin</h1>
+                    <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Dashboard Guru BK - Pos Rahasia</p>
+                </div>
+            </div>
+            <button class="btn" style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;" onclick="logout()">
+                Kunci Kotak Pos (Keluar)
+            </button>
+        </div>
+
+        <h2 style="color: #0f172a; margin-bottom: 15px;">Tumpukan Surat Masuk 📨</h2>
+
+        <!-- Action Bar: Search & Buttons -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+            <input type="text" id="searchInput" placeholder="Cari berdasarkan nama, kelas, atau isi..." oninput="filterData()" style="padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; flex: 1; min-width: 250px; font-family: inherit;">
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-export" style="background-color: #16a34a; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;" onclick="exportToExcel()">
+                    Unduh Data (Excel)
+                </button>
+                <button class="btn btn-danger" style="background-color: #dc2626; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;" onclick="clearData()">
+                    Bakar Surat (Hapus Semua)
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div style="overflow-x: auto;">
+            <table id="dataTable" style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 12px; font-weight: 600; width: 25%; color: #334155;">Nama</th>
+                        <th style="padding: 12px; font-weight: 600; width:

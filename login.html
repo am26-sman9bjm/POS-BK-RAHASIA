@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunci Kotak Pos (Login BK) - SMAN 9 Banjarmasin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="postbox-container">
+        <!-- BAGIAN ATAS KOTAK POS -->
+        <div class="postbox-top">
+            <div class="mail-slot"></div>
+            <div class="postbox-label">Pos Rahasia</div>
+        </div>
+
+        <!-- BAGIAN BAWAH KOTAK POS -->
+        <div class="postbox-body">
+            <div class="letter">
+                
+                <div class="school-header">
+                    <img src="assets/logo.jpeg" class="school-logo" onerror="this.src='https://via.placeholder.com/50?text=SMA+9'">
+                    <h1 class="school-title">SMAN 9 Banjarmasin</h1>
+                </div>
+
+                <h2>Kunci Kotak Pos 🔑</h2>
+                <p style="text-align:center; font-size:14px; color:#64748b; margin-bottom: 20px;">
+                    Masukkan Email & Password Guru BK untuk membaca surat siswa.
+                </p>
+                
+                <form id="loginForm" onsubmit="event.preventDefault(); checkLogin();">
+                    <div class="form-group">
+                        <label for="email">Email Guru BK</label>
+                        <input type="email" id="email" placeholder="am2627.sman9bjm@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">
+                        Buka Kotak Pos 🔓
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="index.html" class="btn-link">← Kembali ke Halaman Utama</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- External Modular Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
