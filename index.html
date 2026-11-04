@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotak Pos Aman - SMAN 9 Banjarmasin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --postbox-main: #4ade80; /* Hijau pastel kotak pos */
+            --postbox-dark: #22c55e;
+            --postbox-shadow: #16a34a;
+            --slot-color: #064e3b;
+            --bg-color: #f8fafc;
+            --text-main: #334155;
+            --paper-color: #fdfbf7; /* Warna kertas vintage */
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+        /* STRUKTUR KOTAK POS */
+        .postbox-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        /* Bagian Atas (Tutup Kotak Pos) */
+        .postbox-top {
+            background-color: var(--postbox-dark);
+            height: 120px;
+            border-radius: 60px 60px 0 0;
+            border: 4px solid var(--postbox-shadow);
+            border-bottom: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: inset 0 15px 20px rgba(255,255,255,0.2);
+        }
+
+        /* Celah Surat (Mail Slot) */
+        .mail-slot {
+            width: 60%;
+            height: 18px;
+            background-color: var(--slot-color);
+            border-radius: 10px;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.8), 0 2px 0 rgba(255,255,255,0.3);
+            margin-bottom: 15px;
+        }
+
+        .postbox-label {
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 var(--slot-color);
+        }
+
+        /* Bagian Bawah (Badan Kotak Pos) */
+        .postbox-body {
+            background-color: var(--postbox-main);
+            border: 4px solid var(--postbox-shadow);
+            border-radius: 0 0 20px 20px;
+            padding: 0 25px 30px 25px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* KERTAS SURAT (Letter) */
+        .letter {
+            background-color: var(--paper-color);
+            border-radius: 8px;
+            padding: 30px 25px;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            transform: translateY(-20px);
+            z-index: 5;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Animasi Surat Meluncur ke Kotak Pos */
+        .sending-anim {
+            transform: translateY(-150px) scale(0.8);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Logo Sekolah */
+        .school-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #cbd5e1;
+            padding-bottom: 15px;
+        }
+        .school-logo { width: 50px; height: auto; border-radius: 8px; }
+        .school-title { font-size: 16px; font-weight: 700; color: var(--postbox-dark); margin: 5px 0 0 0; }
+
+        /* Typography & Elements */
+        h2 { text-align: center; color: var(--slot-color); margin-top: 0; }
+        .quote { text-align: center; font-family: 'Caveat', cursive; font-size: 22px; color: #64748b; margin-bottom: 20px; line-height: 1.2;}
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { font-weight: 700; font-size: 14px; color: var(--text-main); display: block; margin-bottom: 5px; }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px;
+            background: rgba(255,255,255,0.8); font-size: 14px; transition: 0.3s;
+        }
+        
+        /* Desain Kertas Bergaris untuk Textarea */
+        textarea {
+            width: 100%;
+            height: 160px;
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 30px; /* Jarak antar baris */
+            background-color: rgba(255,255,255,0.8);
+            background-image: repeating-linear-gradient(transparent, transparent 29px, #94a3b8 30px);
+            resize: none;
+            transition: 0.3s;
+        }
+        input:focus, textarea:focus { outline: none; border-color: var(--postbox-dark); }
+
+        /* Checkbox */
+        .checkbox-container {
+            display: flex; align-items: flex-start;
+            background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 20px;
+        }
+        .checkbox-container input { width: 18px; height: 18px; margin-right: 10px; margin-top: 2px; accent-color: var(--postbox-dark); cursor: pointer; }
+        .checkbox-container label { font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; margin-bottom: 0; line-height: 1.4; }
+
+        /* Tombol */
+        .btn {
+            background-color: var(--postbox-dark); color: white; border: none;
+            padding: 15px; font-size: 16px; font-weight: 700; border-radius: 8px;
+            width: 100%; cursor: pointer; box-shadow: 0 4px 0 var(--slot-color);
+            transition: all 0.2s;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--slot-color); }
+        .btn-link { background: none; color: #94a3b8; border: none; font-weight: 600; font-size: 13px; text-decoration: underline; cursor: pointer; margin-top: 20px; width: 100%; text-align: center; }
+        
+        .btn-export { background: #3b82f6; box-shadow: 0 4px 0 #1e40af; margin-top: 15px; }
+        .btn-danger { background: #ef4444; box-shadow: 0 4px 0 #991b1b; margin-top: 15px; }
+
+        /* Dashboard Tabel (Mode Kertas Lebar) */
+        .dashboard-letter { max-width: 900px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; text-align: left; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+        th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        th { background-color: var(--postbox-dark); color: white; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; color: white; }
+        .badge-yes { background-color: #10b981; }
+        .badge-no { background-color: #94a3b8; }
+
+        .hidden { display: none !important; }
+        
+        /* Pesan Sukses / Prangko */
+        .success-stamp {
+            display: none; text-align: center; padding: 20px; background: #dcfce7;
+            border: 2px dashed #22c55e; border-radius: 8px; color: #166534; font-weight: 700; margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="postbox-container">
+        
+        <!-- BAGIAN ATAS KOTAK POS (TUTUP & CELAH) -->
+        <div class="postbox-top">
+            <div class="mail-slot"></div>
+            <div class="postbox-label">Pos Rahasia</div>
+        </div>
+
+        <!-- BAGIAN BAWAH KOTAK POS -->
+        <div class="postbox-body">
+            
+            <!-- KERTAS SURAT (Akan memuat semua halaman di dalamnya) -->
+            <div class="letter" id="letter-content">
+                
+                <!-- HEADER SEKOLAH (Selalu Tampil di Atas Kertas) -->
+                <div class="school-header">
+                    <img src="assets/logo.jpeg" class="school-logo" onerror="this.src='https://via.placeholder.com/50?text=SMA+9'">
+                    <h1 class="school-title">SMAN 9 Banjarmasin</h1>
+                </div>
+
+                <!-- 1. HALAMAN AWAL (LANDING) -->
+                <div id="landing-view">
+                    <h2>Kirim Surat Rahasiamu 💌</h2>
+                    <p class="quote">"Apapun yang terjadi, kamu tidak sendirian. Tuliskan di sini, kami akan mendengarkan."</p>
+                    
+                    <button class="btn" onclick="startCurhat()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Tulis Surat Sekarang
+                    </button>
+                    <button class="btn-link" onclick="showLogin()">Buka Kotak Pos (Khusus Guru BK)</button>
+                </div>
+
+                <!-- 2. FORM SISWA (TULIS SURAT) -->
+                <div id="student-view" class="hidden">
+                    <div id="success-msg" class="success-stamp">
+                        📮 Suratmu sudah berhasil masuk ke kotak pos! Guru BK akan segera membacanya.
+                    </div>
+
+                    <form id="curhatForm">
+                        <div class="form-group">
+                            <label for="nama">Nama Lengkap <span style="color: #ef4444;">*</span></label>
+                            <input type="text" id="nama" placeholder="Tuliskan namamu..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kelas">Kelas <span style="color: #ef4444;">*</span></label>
+                            <input type="text" id="kelas" placeholder="Contoh: X IPA 1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cerita">Isi Suratmu <span style="color: #ef4444;">*</span></label>
+                            <!-- Textarea ini punya background garis-garis mirip kertas buku tulis -->
+                            <textarea id="cerita" placeholder="Ceritakan pengalamanmu di sini..." required></textarea>
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="konseling">
+                            <label for="konseling">Saya bersedia untuk konseling individual bersama Guru BK.</label>
+                        </div>
+
+                        <button type="submit" class="btn">
+                            Masukkan ke Kotak Pos 📥
+                        </button>
+                    </form>
+                    <button class="btn-link" onclick="showLanding()">Batal & Kembali</button>
+                </div>
+
+                <!-- 3. LOGIN GURU BK -->
+                <div id="login-view" class="hidden">
+                    <h2>Kunci Kotak Pos 🔑</h2>
+                    <p style="text-align:center; font-size:14px; color:#64748b;">Masukkan PIN untuk mengambil surat-surat dari siswa.</p>
+                    
+                    <div class="form-group">
+                        <input type="password" id="pin" placeholder="PIN Rahasia">
+                    </div>
+                    
+                    <button class="btn" onclick="checkLogin()">Buka Kotak Pos</button>
+                    <button class="btn-link" onclick="showLanding()">Kembali</button>
+                </div>
+
+            </div> <!-- Penutup .letter -->
+        </div> <!-- Penutup .postbox-body -->
+    </div> <!-- Penutup .postbox-container -->
+
+    <!-- 4. DASHBOARD GURU BK (Tampil Terpisah dari Kotak Pos agar Lebar) -->
+    <div id="admin-view" class="dashboard-letter letter hidden">
+        <h2>Tumpukan Surat Masuk 📨</h2>
+        
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-export" onclick="exportToExcel()">Unduh Data (Excel)</button>
+            <button class="btn btn-danger" onclick="clearData()">Bakar Surat (Hapus Semua)</button>
+        </div>
+
+        <div style="overflow-x: auto; margin-top: 20px;">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Isi Surat</th>
+                        <th>Konseling</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data injeksi via JS -->
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-link" style="color: #ef4444;" onclick="logout()">Kunci Kembali Kotak Pos (Keluar)</button>
+    </div>
+
+    <script>
+        // Pastikan ukuran kotak normal saat halaman dimuat
+        const mainContainer = document.querySelector('.postbox-container');
+        const adminView = document.getElementById('admin-view');
+
+        function showLanding() {
+            document.getElementById('student-view').classList.add('hidden');
+            document.getElementById('login-view').classList.add('hidden');
+            adminView.classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+            document.getElementById('landing-view').classList.remove('hidden');
+            document.getElementById('letter-content').classList.remove('sending-anim');
+        }
+
+        function startCurhat() {
+            document.getElementById('landing-view').classList.add('hidden');
+            document.getElementById('student-view').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('landing-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+        }
+
+        // Login BK (PIN: GURUBK2026)
+        function checkLogin() {
+            const pin = document.getElementById('pin').value;
+            if (pin === 'GURUBK2026') {
+                mainContainer.classList.add('hidden'); // Sembunyikan gambar kotak pos
+                adminView.classList.remove('hidden'); // Tampilkan tabel surat yang lebar
+                document.getElementById('pin').value = '';
+                loadDataToTable();
+            } else {
+                alert('⚠️ Kunci/PIN Salah! Tidak bisa membuka kotak pos.');
+            }
+        }
+
+        function logout() {
+            showLanding();
+        }
+
+        // Animasi & Simpan Data
+        document.getElementById('curhatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const kelas = document.getElementById('kelas').value;
+            const cerita = document.getElementById('cerita').value;
+            const bersediaKonseling = document.getElementById('konseling').checked ? "Ya" : "Tidak";
+            
+            const now = new Date();
+            const waktu = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID').slice(0,5);
+            const cleanCerita = cerita.replace(/(\r\n|\n|\r)/gm, " ");
+
+            const laporanBaru = { waktu, nama, kelas, cerita: cleanCerita, konseling: bersediaKonseling };
+
+            let dbCurhat = JSON.parse(localStorage.getItem('dbCurhat_KotakPos')) || [];
+            dbCurhat.push(laporanBaru);
+            localStorage.setItem('dbCurhat_KotakPos', JSON.stringify(dbCurhat));
+
+            // Efek Surat Masuk (Letter sliding into the slot)
+            const letter = document.getElementById('letter-content');
+            letter.classList.add('sending-anim');
+            document.getElementById('curhatForm').classList.add('hidden');
+            
+            const successMsg = document.getElementById('success-msg');
+            successMsg.style.display = 'block';
+
+            // Reset setelah animasi selesai (3 detik)
+            setTimeout(() => { 
+                document.getElementById('curhatForm').reset();
+                document.getElementById('curhatForm').classList.remove('hidden');
+                successMsg.style.display = 'none'; 
+                showLanding();
+            }, 3000);
+        });
+
+        // Muat Data ke Tabel
+        function loadDataToTable() {
+            const dbCurhat = JSON.parse(localStorage.getItem('dbCurhat_KotakPos')) || [];
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            if (dbCurhat.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px;">Kotak Pos kosong. Belum ada surat yang masuk.</td></tr>';
+                return;
+            }
+
+            dbCurhat.reverse().forEach(row => {
+                const badgeClass = row.konseling === "Ya" ? "badge-yes" : "badge-no";
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="white-space: nowrap; color: #64748b;">${row.waktu}</td>
+                    <td><strong>${row.nama}</strong></td>
+                    <td style="white-space: nowrap;">${row.kelas}</td>
+                    <td>${row.cerita}</td>
+                    <td style="text-align:center;"><span class="badge ${badgeClass}">${row.konseling}</span></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Export Excel (CSV)
+        function exportToExcel() {
+            const dbCurhat = JSON.parse(localStorage.getItem('dbCurhat_KotakPos')) || [];
+            if (dbCurhat.length === 0) {
+                alert("Kotak pos masih kosong.");
+                return;
+            }
+
+            let csvContent = "\uFEFF"; 
+            csvContent += "Waktu Lapor,Nama Siswa,Kelas,Isi Surat,Bersedia Konseling\n";
+
+            dbCurhat.forEach(row => {
+                let baris = `"${row.waktu}","${row.nama}","${row.kelas}","${row.cerita}","${row.konseling}"`;
+                csvContent += baris + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Surat_Kotak_Pos_SMAN9.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Hapus Data
+        function clearData() {
+            if(confirm("⚠️ PERHATIAN: Semua surat akan dibakar/dihapus permanen. Pastikan sudah diunduh ke Excel. Lanjutkan?")) {
+                localStorage.removeItem('dbCurhat_KotakPos');
+                loadDataToTable();
+            }
+        }
+    </script>
+</body>
+</html>
